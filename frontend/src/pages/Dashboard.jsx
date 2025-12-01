@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import {
   ChevronLeft,
   ChevronRight,
@@ -46,9 +47,17 @@ function Sparkline({ data = [] }) {
 }
 
 export default function Dashboard() {
+  const navigate = useNavigate();
   const [collapsed, setCollapsed] = useState(false);
   const [active, setActive] = useState("overview");
   const [videoSrc, setVideoSrc] = useState("http://localhost:5000/video-stream");
+
+  // Logout handler
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    navigate("/");
+  };
 
   // Upload handler
   const handleVideoUpload = (e) => {
@@ -299,7 +308,10 @@ export default function Dashboard() {
             <button className="p-2 bg-white/10 rounded-lg hover:bg-white/20">
               <Settings />
             </button>
-            <button className="px-4 py-2 rounded-lg bg-red-500/80 hover:bg-red-600">
+            <button 
+              onClick={handleLogout}
+              className="px-4 py-2 rounded-lg bg-red-500/80 hover:bg-red-600"
+            >
               Logout
             </button>
           </div>
